@@ -5,7 +5,35 @@
     },
     "geometries": [
         {
-            "uuid": "C3BF1E70-0BE7-4E6D-B184-C9F1E84A3423",
+            "uuid": "bfd5dda1-f0ce-45df-8ad8-9dd51aafd361",
+            "type": "Geometry",
+            "data": {
+                "vertices": [
+                    14, 0, 0,
+                    7, -12.134, 0,
+                    -7, -12.134, 0,
+                    -14, 0, 0,
+                    -7, 12.134, 0,
+                    7, 12.134, 0,
+                    14, 0, 3,
+                    7, -12.134, 3,
+                    -7, -12.134, 3,
+                    -14, 0, 3,
+                    -7, 12.134, 3,
+                    7, 12.134, 3
+                ],
+                "faces": [
+                    1, 0, 1, 7, 6,
+                    1, 1, 2, 8, 7,
+                    1, 2, 3, 9, 8,
+                    1, 3, 4, 10, 9,
+                    1, 4, 5, 11, 10,
+                    1, 5, 0, 6, 11
+                ]
+            }
+        },
+        {
+            "uuid": "2f050a40-4e34-49f3-a1f4-52b4ef9f1528",
             "type": "BufferGeometry",
             "data": {
                 "attributes": {
@@ -147,7 +175,7 @@
     ],
     "materials": [
         {
-            "uuid": "87D95D6C-6BB4-4B8F-8166-A3A6945BA5E3",
+            "uuid": "28532ed8-0fa0-4099-95f4-ef6f43a17b45",
             "type": "MeshPhongMaterial",
             "color": 4624675,
             "ambient": 4624675,
@@ -157,6 +185,14 @@
             "opacity": 1,
             "transparent": false,
             "wireframe": false
+        },
+        {
+            "uuid": "b9733e28-1268-4e50-9048-1c5185d665f0",
+            "type": "MeshBasicMaterial",
+            "color": 16711680,
+            "side": 2,
+            "transparent": true,
+            "opacity": 0.5
         }
     ],
     "object": {
@@ -166,8 +202,15 @@
             {
                 "name": "Hex Surface",
                 "type": "Mesh",
-                "geometry": "C3BF1E70-0BE7-4E6D-B184-C9F1E84A3423",
-                "material": "87D95D6C-6BB4-4B8F-8166-A3A6945BA5E3",
+                "geometry": "2f050a40-4e34-49f3-a1f4-52b4ef9f1528",
+                "material": "28532ed8-0fa0-4099-95f4-ef6f43a17b45",
+                "matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]
+            },
+            {
+                "name": "Hex Border",
+                "type": "Mesh",
+                "geometry": "bfd5dda1-f0ce-45df-8ad8-9dd51aafd361",
+                "material": "b9733e28-1268-4e50-9048-1c5185d665f0",
                 "matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]
             }
         ]

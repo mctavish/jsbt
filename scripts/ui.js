@@ -22,12 +22,18 @@ var loader = new THREE.ObjectLoader();
 loader.load(
 	'models/terrain/clear.js',
 	function(object) {
-		holder.add(object);
+        holder.add(object.clone());
+        holder.add(object.clone().translateY(26));
+        holder.add(object.clone().translateY(-26));
+        holder.add(object.clone().translateX(22.5).translateY(13));
+        holder.add(object.clone().translateX(-22.5).translateY(13));
+        holder.add(object.clone().translateX(22.5).translateY(-13));
+        holder.add(object.clone().translateX(-22.5).translateY(-13));
 	}
 );
 
-camera.position.z = 30;
-camera.position.y = -20;
+camera.position.z = 60;
+camera.position.y = -40;
 camera.lookAt(new THREE.Vector3(0, 0, 0));
 
 var render = function () {
