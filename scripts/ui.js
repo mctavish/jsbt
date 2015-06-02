@@ -22,7 +22,9 @@ var loader = new THREE.ObjectLoader();
 loader.load(
 	'models/terrain/clear.js',
 	function(object) {
-        holder.add(object.clone());
+        var hex = new BT.Hex(object.clone());
+        hex.setHighlight(false);
+        holder.add(hex.uiObj);
         holder.add(object.clone().translateY(26));
         holder.add(object.clone().translateY(-26));
         holder.add(object.clone().translateX(22.5).translateY(13));
