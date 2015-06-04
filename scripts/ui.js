@@ -32,12 +32,9 @@ function clickHandler(e) {
     var raycaster = new THREE.Raycaster();
     raycaster.setFromCamera(mouse, camera);
     var intersects = raycaster.intersectObjects(hexMeshList);
-    console.log(intersects[0]);
     if (intersects[0]) {
-        console.log(intersects[0].uuid);
         if (intersects[0].object && intersects[0].object.uuid) {
             var hex = hexMap[intersects[0].object.uuid];
-            console.log(hex);
             hex.setHighlight(!hex.getHighlight());
         }
     }
@@ -66,6 +63,8 @@ loader.load(
 camera.position.z = 60;
 camera.position.y = -40;
 camera.lookAt(new THREE.Vector3(0, 0, 0));
+
+var windowResize = new THREEx.WindowResize(renderer, camera);
 
 var render = function () {
 	requestAnimationFrame( render );
