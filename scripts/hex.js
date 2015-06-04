@@ -15,5 +15,13 @@ BT.Hex.prototype = {
     setHighlight: function(highlight) {
         this.highlight = highlight;
         this.uiHighlight.visible = highlight;
+    },
+    
+    getHighlight: function() {
+        return this.highlight;
+    },
+
+    getHexMesh: function() {
+        return this.uiObj.getObjectByName("Hex Surface");
     }
 };

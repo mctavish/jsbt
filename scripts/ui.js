@@ -18,12 +18,41 @@ scene.add(light);
 // instantiate a loader
 var loader = new THREE.ObjectLoader();
 
+var hexMeshList = [];
+var hexMap = {};
+
+function clickHandler(e) {
+    e = e || window.event;
+
+    var target = e.target || e.srcElement,
+        rect = target.getBoundingClientRect(),
+        mouse = new THREE.Vector2((e.clientX - rect.left) / rect.width * 2 - 1,
+                                  (e.clientY - rect.top) / rect.height * 2 - 1);
+
+    var raycaster = new THREE.Raycaster();
+    raycaster.setFromCamera(mouse, camera);
+    var intersects = raycaster.intersectObjects(hexMeshList);
+    console.log(intersects[0]);
+    if (intersects[0]) {
+        console.log(intersects[0].uuid);
+        if (intersects[0].object && intersects[0].object.uuid) {
+            var hex = hexMap[intersects[0].object.uuid];
+            console.log(hex);
+            hex.setHighlight(!hex.getHighlight());
+        }
+    }
+}
+
+document.getElementById('board').addEventListener("click", clickHandler, false);
+
 // load a resource
 loader.load(
 	'models/terrain/clear.js',
 	function(object) {
         var hex = new BT.Hex(object.clone());
         hex.setHighlight(false);
+        hexMeshList.push(hex.getHexMesh());
+        hexMap[hex.getHexMesh().uuid] = hex;
         holder.add(hex.uiObj);
         holder.add(object.clone().translateY(26));
         holder.add(object.clone().translateY(-26));
