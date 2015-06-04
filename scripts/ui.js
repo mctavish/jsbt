@@ -22,43 +22,72 @@ var hexMeshList = [];
 var hexMap = {};
 
 function clickHandler(e) {
+    // Assumption:  Board has been loaded.
     e = e || window.event;
 
     var target = e.target || e.srcElement,
         rect = target.getBoundingClientRect(),
         mouse = new THREE.Vector2((e.clientX - rect.left) / rect.width * 2 - 1,
-                                  (e.clientY - rect.top) / rect.height * 2 - 1);
+                                  -((e.clientY - rect.top) / rect.height * 2 - 1));
 
+    // FIXME: It appears that rotations don't work right at all.
     var raycaster = new THREE.Raycaster();
     raycaster.setFromCamera(mouse, camera);
-    var intersects = raycaster.intersectObjects(hexMeshList);
+    var intersects = raycaster.intersectObjects(board.clickableList);
     if (intersects[0]) {
         if (intersects[0].object && intersects[0].object.uuid) {
-            var hex = hexMap[intersects[0].object.uuid];
+            var hex = board.findHexByUuid(intersects[0].object.uuid);
             hex.setHighlight(!hex.getHighlight());
         }
     }
 }
 
-document.getElementById('board').addEventListener("click", clickHandler, false);
+var assets = {};
 
 // load a resource
 loader.load(
 	'models/terrain/clear.js',
 	function(object) {
-        var hex = new BT.Hex(object.clone());
-        hex.setHighlight(false);
-        hexMeshList.push(hex.getHexMesh());
-        hexMap[hex.getHexMesh().uuid] = hex;
-        holder.add(hex.uiObj);
-        holder.add(object.clone().translateY(26));
-        holder.add(object.clone().translateY(-26));
-        holder.add(object.clone().translateX(22.5).translateY(13));
-        holder.add(object.clone().translateX(-22.5).translateY(13));
-        holder.add(object.clone().translateX(22.5).translateY(-13));
-        holder.add(object.clone().translateX(-22.5).translateY(-13));
+        assets['clear'] = object;
+        // TODO: Only do this once all assets are loaded.
+        buildBoard();
 	}
 );
+
+var board;
+var buildBoard = function () {
+    // TODO: Move the board data into a loaded file.
+    board = new BT.Board(5, 5, [
+        {'type': 'clear'},
+        {'type': 'clear'},
+        {'type': 'clear'},
+        {'type': 'clear'},
+        {'type': 'clear'},
+        {'type': 'clear'},
+        {'type': 'clear'},
+        {'type': 'clear'},
+        {'type': 'clear'},
+        {'type': 'clear'},
+        {'type': 'clear'},
+        {'type': 'clear'},
+        {'type': 'clear'},
+        {'type': 'clear'},
+        {'type': 'clear'},
+        {'type': 'clear'},
+        {'type': 'clear'},
+        {'type': 'clear'},
+        {'type': 'clear'},
+        {'type': 'clear'},
+        {'type': 'clear'},
+        {'type': 'clear'},
+        {'type': 'clear'},
+        {'type': 'clear'},
+        {'type': 'clear'}
+    ], assets, holder);
+    holder.translateX(-board.worldWidth / 2);
+    holder.translateY(-board.worldHeight / 2);
+    document.getElementById('board').addEventListener("click", clickHandler, false);
+};
 
 camera.position.z = 60;
 camera.position.y = -40;
@@ -69,7 +98,7 @@ var windowResize = new THREEx.WindowResize(renderer, camera);
 var render = function () {
 	requestAnimationFrame( render );
 
-	holder.rotation.z += 0.01;
+	//holder.rotation.z += 0.01;
 
 	renderer.render(scene, camera);
 };
