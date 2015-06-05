@@ -18,9 +18,6 @@ scene.add(light);
 // instantiate a loader
 var loader = new THREE.ObjectLoader();
 
-var hexMeshList = [];
-var hexMap = {};
-
 function clickHandler(e) {
     // Assumption:  Board has been loaded.
     e = e || window.event;
@@ -33,7 +30,7 @@ function clickHandler(e) {
     // FIXME: It appears that rotations don't work right at all.
     var raycaster = new THREE.Raycaster();
     raycaster.setFromCamera(mouse, camera);
-    var intersects = raycaster.intersectObjects(board.clickableList);
+    var intersects = raycaster.intersectObjects(board.getClickables());
     if (intersects[0]) {
         if (intersects[0].object && intersects[0].object.uuid) {
             var hex = board.findHexByUuid(intersects[0].object.uuid);
@@ -46,7 +43,9 @@ var assets = {};
 var assetList = {
     'clear': 'models/terrain/clear.js',
     'lightforest': 'models/terrain/lightforest.js',
-    'highlight': 'models/highlight.js'
+    'heavyforest': 'models/terrain/heavyforest.js',
+    'highlight': 'models/highlight.js',
+    'border': 'models/border.js'
 };
 var assetsToLoad = 0;
 
@@ -74,41 +73,13 @@ for (var assetId in assetList) {
 
 var board;
 var buildBoard = function () {
-    console.log(assets);
-    // TODO: Move the board data into a loaded file.
-    board = new BT.Board(5, 5, [
-        {'type': 'clear'},
-        {'type': 'clear'},
-        {'type': 'clear'},
-        {'type': 'clear'},
-        {'type': 'clear'},
-        {'type': 'clear'},
-        {'type': 'clear'},
-        {'type': 'clear'},
-        {'type': 'lightforest'},
-        {'type': 'lightforest'},
-        {'type': 'clear'},
-        {'type': 'clear'},
-        {'type': 'clear'},
-        {'type': 'clear'},
-        {'type': 'clear'},
-        {'type': 'clear'},
-        {'type': 'clear'},
-        {'type': 'clear'},
-        {'type': 'clear'},
-        {'type': 'clear'},
-        {'type': 'clear'},
-        {'type': 'clear'},
-        {'type': 'clear'},
-        {'type': 'clear'},
-        {'type': 'clear'}
-    ], assets, holder);
+    board = new BT.Board(BT.boardData.width, BT.boardData.height, BT.boardData.data, assets, holder);
     holder.translateX(-board.worldWidth / 2);
     holder.translateY(-board.worldHeight / 2);
     document.getElementById('board').addEventListener("click", clickHandler, false);
 };
 
-camera.position.z = 60;
+camera.position.z = 220;
 camera.position.y = -40;
 camera.lookAt(new THREE.Vector3(0, 0, 0));
 

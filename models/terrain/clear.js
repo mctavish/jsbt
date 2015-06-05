@@ -149,10 +149,10 @@
         {
             "uuid": "28532ed8-0fa0-4099-95f4-ef6f43a17b45",
             "type": "MeshPhongMaterial",
-            "color": 4624675,
-            "ambient": 4624675,
+            "color": 6133563,
+            "ambient": 6133563,
             "emissive": 0,
-            "specular": 4624675,
+            "specular": 6133563,
             "shininess": 30,
             "opacity": 1,
             "transparent": false,

@@ -5,7 +5,7 @@
     },
     "geometries": [
         {
-            "uuid": "897e8ef4-cc1c-45e5-af2a-0f23bb357add",
+            "uuid": "05ea8355-bc3f-4e7b-a487-40e832fa4127",
             "type": "Geometry",
             "data": {
                 "vertices": [
@@ -46,7 +46,7 @@
             }
         },
         {
-            "uuid": "180ba278-7493-4520-b300-3a04b8372f8c",
+            "uuid": "cd1f257b-bac6-4f25-bde9-0daec1cc7102",
             "type": "BufferGeometry",
             "data": {
                 "attributes": {
@@ -188,19 +188,19 @@
     ],
     "materials": [
         {
-            "uuid": "020ac589-396b-4d2b-afc5-aa262bf9bf3e",
+            "uuid": "e3df2b4b-c450-4f0b-980f-ccc7f2872769",
             "type": "MeshPhongMaterial",
-            "color": 6259263,
-            "ambient": 6259263,
+            "color": 7633467,
+            "ambient": 7633467,
             "emissive": 0,
-            "specular": 6259263,
+            "specular": 7633467,
             "shininess": 30,
             "opacity": 1,
             "transparent": false,
             "wireframe": false
         },
         {
-            "uuid": "1cd29f36-1217-4fd9-9b44-af9d4d214448",
+            "uuid": "6b100f26-eb52-4488-8970-9351268acbaf",
             "type": "MeshPhongMaterial",
             "color": 1330957,
             "ambient": 1330957,
@@ -219,31 +219,53 @@
             {
                 "name": "Hex Surface",
                 "type": "Mesh",
-                "geometry": "180ba278-7493-4520-b300-3a04b8372f8c",
-                "material": "020ac589-396b-4d2b-afc5-aa262bf9bf3e",
+                "geometry": "cd1f257b-bac6-4f25-bde9-0daec1cc7102",
+                "material": "e3df2b4b-c450-4f0b-980f-ccc7f2872769",
                 "matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]
             },
             {
                 "name": "Tree 1",
                 "type": "Mesh",
-                "geometry": "897e8ef4-cc1c-45e5-af2a-0f23bb357add",
-                "material": "1cd29f36-1217-4fd9-9b44-af9d4d214448",
+                "geometry": "05ea8355-bc3f-4e7b-a487-40e832fa4127",
+                "material": "6b100f26-eb52-4488-8970-9351268acbaf",
                 "matrix": [1,0,0,0,0,1,0,0,0,0,1,0,7,5,0,1]
             },
             {
                 "name": "Tree 2",
                 "type": "Mesh",
-                "geometry": "897e8ef4-cc1c-45e5-af2a-0f23bb357add",
-                "material": "1cd29f36-1217-4fd9-9b44-af9d4d214448",
-                "matrix": [1,0,0,0,0,1,0,0,0,0,1,0,-6,2,0,1]
+                "geometry": "05ea8355-bc3f-4e7b-a487-40e832fa4127",
+                "material": "6b100f26-eb52-4488-8970-9351268acbaf",
+                "matrix": [1,0,0,0,0,1,0,0,0,0,1,0,-7,3,0,1]
             },
             {
                 "name": "Tree 3",
                 "type": "Mesh",
-                "geometry": "897e8ef4-cc1c-45e5-af2a-0f23bb357add",
-                "material": "1cd29f36-1217-4fd9-9b44-af9d4d214448",
+                "geometry": "05ea8355-bc3f-4e7b-a487-40e832fa4127",
+                "material": "6b100f26-eb52-4488-8970-9351268acbaf",
                 "matrix": [1,0,0,0,0,1,0,0,0,0,1,0,2,-8,0,1]
+            },
+            {
+                "name": "Tree 4",
+                "type": "Mesh",
+                "geometry": "05ea8355-bc3f-4e7b-a487-40e832fa4127",
+                "material": "6b100f26-eb52-4488-8970-9351268acbaf",
+                "matrix": [1,0,0,0,0,1,0,0,0,0,1,0,10,0,0,1]
+            },
+            {
+                "name": "Tree 5",
+                "type": "Mesh",
+                "geometry": "05ea8355-bc3f-4e7b-a487-40e832fa4127",
+                "material": "6b100f26-eb52-4488-8970-9351268acbaf",
+                "matrix": [1,0,0,0,0,1,0,0,0,0,1,0,-8,-4,0,1]
+            },
+            {
+                "name": "Tree 6",
+                "type": "Mesh",
+                "geometry": "05ea8355-bc3f-4e7b-a487-40e832fa4127",
+                "material": "6b100f26-eb52-4488-8970-9351268acbaf",
+                "matrix": [1,0,0,0,0,1,0,0,0,0,1,0,-1,8,0,1]
             }
-        ]
+
+    ]
     }
 }

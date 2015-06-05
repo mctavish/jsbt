@@ -7,6 +7,7 @@ BT.Board = function(width, height, data, assets, holderObj) {
     this.clickHexMap = {};
     this.hexList = [];
     var highlightObj = assets['highlight'];
+    var borderObj = assets['border'];
     for (var x = 0; x < width; x++) {
         for (var y = 0; y < height; y++) {
             var hexData = data[x + y * width];
@@ -18,6 +19,7 @@ BT.Board = function(width, height, data, assets, holderObj) {
             this.clickHexMap[hex.getHexMesh().uuid] = hex;
             this.hexList[x + y * width] = hex;
             holderObj.add(uiObj);
+            uiObj.add(borderObj.clone());
         }
     }
     // TODO: Tidy up the calculations.
