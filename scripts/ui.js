@@ -43,19 +43,37 @@ function clickHandler(e) {
 }
 
 var assets = {};
+var assetList = {
+    'clear': 'models/terrain/clear.js',
+    'lightforest': 'models/terrain/lightforest.js'
+};
+var assetsToLoad = 0;
 
-// load a resource
-loader.load(
-	'models/terrain/clear.js',
-	function(object) {
-        assets['clear'] = object;
-        // TODO: Only do this once all assets are loaded.
-        buildBoard();
-	}
-);
+for (var assetId in assetList) {
+    assetsToLoad++;
+    if (assetList.hasOwnProperty(assetId)) {
+        (function(assetId) {
+            loader.load(
+                assetList[assetId],
+                function(object) {
+                    console.log("Before adding", assetId, assets);
+                    assets[assetId] = object;
+                    console.log("After adding", assetId, assets);
+                    assetsToLoad--;
+                    if (assetsToLoad === 0) {
+                        buildBoard();
+                    }
+                }
+            );
+        })(assetId);
+    } else {
+        console.log("Doesn't have own property", assetId);
+    }
+}
 
 var board;
 var buildBoard = function () {
+    console.log(assets);
     // TODO: Move the board data into a loaded file.
     board = new BT.Board(5, 5, [
         {'type': 'clear'},
@@ -66,8 +84,8 @@ var buildBoard = function () {
         {'type': 'clear'},
         {'type': 'clear'},
         {'type': 'clear'},
-        {'type': 'clear'},
-        {'type': 'clear'},
+        {'type': 'lightforest'},
+        {'type': 'lightforest'},
         {'type': 'clear'},
         {'type': 'clear'},
         {'type': 'clear'},
