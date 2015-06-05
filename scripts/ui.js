@@ -45,7 +45,8 @@ function clickHandler(e) {
 var assets = {};
 var assetList = {
     'clear': 'models/terrain/clear.js',
-    'lightforest': 'models/terrain/lightforest.js'
+    'lightforest': 'models/terrain/lightforest.js',
+    'highlight': 'models/highlight.js'
 };
 var assetsToLoad = 0;
 
