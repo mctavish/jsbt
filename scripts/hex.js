@@ -3,10 +3,12 @@ var BT = BT || {};
 /* This implementation is deeply tied to the UI and the THREE.js object.
  * Concerning in the long run, but enough to get a prototype off the ground.
  */
-BT.Hex = function(uiObj) {
+BT.Hex = function(uiObj, highlightObj) {
     this.uiObj = uiObj;
-    this.uiHighlight = this.uiObj.getObjectByName("Hex Border");
-    this.highlight = true;
+    this.uiHighlight = highlightObj.clone();
+    this.uiObj.add(this.uiHighlight);
+    this.uiHighlight.visible = false;
+    this.highlight = false;
 };
 
 BT.Hex.prototype = {

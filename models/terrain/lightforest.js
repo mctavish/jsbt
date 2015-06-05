@@ -5,7 +5,48 @@
     },
     "geometries": [
         {
-            "uuid": "2f050a40-4e34-49f3-a1f4-52b4ef9f1528",
+            "uuid": "897e8ef4-cc1c-45e5-af2a-0f23bb357add",
+            "type": "Geometry",
+            "data": {
+                "vertices": [
+                    0.5, 0, 0,
+                    0.25, -0.433, 0,
+                    -0.25, -0.433, 0,
+                    -0.5, 0, 0,
+                    -0.25, 0.433, 0,
+                    0.25, 0.433, 0,
+                    0.5, 0, 2,
+                    0.25, -0.433, 2,
+                    -0.25, -0.433, 2,
+                    -0.5, 0, 2,
+                    -0.25, 0.433, 2,
+                    0.25, 0.433, 2,
+                    2, 0, 2,
+                    1, -1.732, 2,
+                    -1, -1.732, 2,
+                    -2, 0, 2,
+                    -1, 1.732, 2,
+                    1, 1.732, 2,
+                    0, 0, 12
+                ],
+                "faces": [
+                    1, 1, 0, 6, 7,
+                    1, 2, 1, 7, 8,
+                    1, 3, 2, 8, 9,
+                    1, 4, 3, 9, 10,
+                    1, 5, 4, 10, 11,
+                    1, 0, 5, 11, 6,
+                    0, 13, 12, 18,
+                    0, 14, 13, 18,
+                    0, 15, 14, 18,
+                    0, 16, 15, 18,
+                    0, 17, 16, 18,
+                    0, 12, 17, 18
+                ]
+            }
+        },
+        {
+            "uuid": "180ba278-7493-4520-b300-3a04b8372f8c",
             "type": "BufferGeometry",
             "data": {
                 "attributes": {
@@ -147,12 +188,24 @@
     ],
     "materials": [
         {
-            "uuid": "28532ed8-0fa0-4099-95f4-ef6f43a17b45",
+            "uuid": "020ac589-396b-4d2b-afc5-aa262bf9bf3e",
             "type": "MeshPhongMaterial",
-            "color": 6133563,
-            "ambient": 6133563,
+            "color": 6259263,
+            "ambient": 6259263,
             "emissive": 0,
-            "specular": 6133563,
+            "specular": 6259263,
+            "shininess": 30,
+            "opacity": 1,
+            "transparent": false,
+            "wireframe": false
+        },
+        {
+            "uuid": "1cd29f36-1217-4fd9-9b44-af9d4d214448",
+            "type": "MeshPhongMaterial",
+            "color": 1330957,
+            "ambient": 1330957,
+            "emissive": 0,
+            "specular": 1330957,
             "shininess": 30,
             "opacity": 1,
             "transparent": false,
@@ -166,9 +219,30 @@
             {
                 "name": "Hex Surface",
                 "type": "Mesh",
-                "geometry": "2f050a40-4e34-49f3-a1f4-52b4ef9f1528",
-                "material": "28532ed8-0fa0-4099-95f4-ef6f43a17b45",
+                "geometry": "180ba278-7493-4520-b300-3a04b8372f8c",
+                "material": "020ac589-396b-4d2b-afc5-aa262bf9bf3e",
                 "matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]
+            },
+            {
+                "name": "Tree 1",
+                "type": "Mesh",
+                "geometry": "897e8ef4-cc1c-45e5-af2a-0f23bb357add",
+                "material": "1cd29f36-1217-4fd9-9b44-af9d4d214448",
+                "matrix": [1,0,0,0,0,1,0,0,0,0,1,0,7,5,0,1]
+            },
+            {
+                "name": "Tree 2",
+                "type": "Mesh",
+                "geometry": "897e8ef4-cc1c-45e5-af2a-0f23bb357add",
+                "material": "1cd29f36-1217-4fd9-9b44-af9d4d214448",
+                "matrix": [1,0,0,0,0,1,0,0,0,0,1,0,-6,2,0,1]
+            },
+            {
+                "name": "Tree 3",
+                "type": "Mesh",
+                "geometry": "897e8ef4-cc1c-45e5-af2a-0f23bb357add",
+                "material": "1cd29f36-1217-4fd9-9b44-af9d4d214448",
+                "matrix": [1,0,0,0,0,1,0,0,0,0,1,0,2,-8,0,1]
             }
         ]
     }
