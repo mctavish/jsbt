@@ -1,5 +1,7 @@
 /* Nasty global namespace stuff */
 
+// TODO: There's an issue with paths wrt texture images.
+
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
 
@@ -45,7 +47,8 @@ var assetList = {
     'lightforest': 'models/terrain/lightforest.js',
     'heavyforest': 'models/terrain/heavyforest.js',
     'highlight': 'models/highlight.js',
-    'border': 'models/border.js'
+    'border': 'models/border.js',
+    'enf-4r': 'models/units/enf-4r.js'  // Horrible but gets the point across.
 };
 var assetsToLoad = 0;
 
@@ -56,9 +59,7 @@ for (var assetId in assetList) {
             loader.load(
                 assetList[assetId],
                 function(object) {
-                    console.log("Before adding", assetId, assets);
                     assets[assetId] = object;
-                    console.log("After adding", assetId, assets);
                     assetsToLoad--;
                     if (assetsToLoad === 0) {
                         buildBoard();

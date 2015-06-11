@@ -42,7 +42,7 @@
     "images": [
         {
             "uuid": "9ae14152-e514-4cca-95f7-5f9bd4c42906",
-            "url": "textures/hex-highlight.png"
+            "url": "textures/border.png"
         }
     ],
     "textures": [
