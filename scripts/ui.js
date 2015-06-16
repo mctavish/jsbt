@@ -78,6 +78,9 @@ var buildBoard = function () {
     holder.translateX(-board.worldWidth / 2);
     holder.translateY(-board.worldHeight / 2);
     document.getElementById('board').addEventListener("click", clickHandler, false);
+    var mech = new BT.Unit(assets['enf-4r'].clone(), new BT.UnitSheet(), board.getHex(5, 5), holder);
+    mech.setFacing(3);
+    mech.setFacing(1);
 };
 
 camera.position.z = 220;

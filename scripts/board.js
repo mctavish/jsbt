@@ -29,12 +29,16 @@ BT.Board = function(width, height, data, assets, holderObj) {
 
 BT.Board.prototype = {
     constructor: BT.Board,
-    
+
     getClickables: function() {
         return this.clickableList;
     },
-    
+
     findHexByUuid: function(uuid) {
         return this.clickHexMap[uuid];
+    },
+
+    getHex: function(x, y) {
+        return this.hexList[x + y * this.width];
     }
 };

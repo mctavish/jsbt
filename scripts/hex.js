@@ -13,17 +13,21 @@ BT.Hex = function(uiObj, highlightObj) {
 
 BT.Hex.prototype = {
     constructor: BT.Hex,
-    
+
     setHighlight: function(highlight) {
         this.highlight = highlight;
         this.uiHighlight.visible = highlight;
     },
-    
+
     getHighlight: function() {
         return this.highlight;
     },
 
     getHexMesh: function() {
         return this.uiObj.getObjectByName("Hex Surface");
+    },
+
+    getUiPosition: function() {
+        return this.uiObj.position;
     }
 };
