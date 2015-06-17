@@ -97,10 +97,11 @@ BT.UI.prototype = {
         this.board = new BT.Board(BT.boardData.width, BT.boardData.height, BT.boardData.data, this.assets, this.holder);
         this.holder.translateX(-this.board.worldWidth / 2);
         this.holder.translateY(-this.board.worldHeight / 2);
-        document.getElementById('board').addEventListener("click", this.clickHandler, false);
         this.mech = new BT.Unit(this.assets['enf-4r'].clone(), new BT.UnitSheet(), this.board.getHex(5, 5), this.holder);
         this.mech.setFacing(3);
         this.mech.setFacing(1);
+        var self = this;
+        document.getElementById('board').addEventListener("click", function() {return self.clickHandler();}, false);
     },
 
     updateUI: function() {
