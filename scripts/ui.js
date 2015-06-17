@@ -7,6 +7,10 @@ BT.UIStates = Object.freeze({
     PENDING_MOVEMENT: 1,
 });
 
+BT.Pallet = {
+    'blue': new THREE.Color(0, 0, 1),
+}
+
 // TODO: Take a dom element as an input parameter and put the renderer in it.
 BT.UI = function() {
     this.scene = new THREE.Scene();
@@ -85,10 +89,25 @@ BT.UI.prototype = {
         var raycaster = new THREE.Raycaster();
         raycaster.setFromCamera(mouse, this.camera);
         var intersects = raycaster.intersectObjects(this.board.getClickables());
+        var hex = null;
         if (intersects[0]) {
             if (intersects[0].object && intersects[0].object.uuid) {
-                var hex = this.board.findHexByUuid(intersects[0].object.uuid);
-                hex.setHighlight(!hex.getHighlight());
+                hex = this.board.findHexByUuid(intersects[0].object.uuid);
+            }
+        }
+        if (hex) {
+            if (this.state == BT.UIStates.PENDING_SELECTION) {
+                var unit = null;
+                unit = this.board.getUnitAt(hex);
+                if (unit) {
+                    this.state = BT.UIStates.PENDING_MOVEMENT;
+                    this.selectedUnit = unit;
+                    hex.setHighlight(BT.Pallet.blue);
+                }
+            } else if (this.state == BT.UIStates.PENDING_MOVEMENT) {
+                this.selectedUnit.getHex().setHighlight(null);
+                hex.setHighlight(BT.Pallet.blue);
+                this.board.moveUnit(this.selectedUnit, hex);
             }
         }
     },
@@ -97,9 +116,8 @@ BT.UI.prototype = {
         this.board = new BT.Board(BT.boardData.width, BT.boardData.height, BT.boardData.data, this.assets, this.holder);
         this.holder.translateX(-this.board.worldWidth / 2);
         this.holder.translateY(-this.board.worldHeight / 2);
-        this.mech = new BT.Unit(this.assets['enf-4r'].clone(), new BT.UnitSheet(), this.board.getHex(5, 5), this.holder);
-        this.mech.setFacing(3);
-        this.mech.setFacing(1);
+        var mech = new BT.Unit(this.assets['enf-4r'].clone(), new BT.UnitSheet());
+        this.board.addUnit(mech, 5, 5, 3);
         var self = this;
         document.getElementById('board').addEventListener("click", function() {return self.clickHandler();}, false);
     },

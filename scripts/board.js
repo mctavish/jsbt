@@ -6,6 +6,7 @@ BT.Board = function(width, height, data, assets, holderObj) {
     this.clickableList = [];
     this.clickHexMap = {};
     this.hexList = [];
+    this.units = {};
     var highlightObj = assets['highlight'];
     var borderObj = assets['border'];
     for (var x = 0; x < width; x++) {
@@ -25,6 +26,8 @@ BT.Board = function(width, height, data, assets, holderObj) {
     // TODO: Tidy up the calculations.
     this.worldWidth = this.width * 22.5;
     this.worldHeight = this.height * 26;
+    
+    this.holderObj = holderObj;
 };
 
 BT.Board.prototype = {
@@ -40,5 +43,23 @@ BT.Board.prototype = {
 
     getHex: function(x, y) {
         return this.hexList[x + y * this.width];
+    },
+    
+    addUnit: function(unit, x, y, facing) {
+        var hex = this.getHex(x, y);
+        this.units[hex.uuid] = unit;
+        unit.setHex(hex);
+        unit.setFacing(facing);
+        this.holderObj.add(unit.getUiObj());
+    },
+    
+    moveUnit: function(unit, hex) {
+        this.units[unit.hex.uuid] = null;
+        this.units[hex.uuid] = unit;
+        unit.setHex(hex);
+    },
+    
+    getUnitAt: function(hex) {
+        return this.units[hex.uuid];
     }
 };

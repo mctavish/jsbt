@@ -16,7 +16,12 @@ BT.Hex.prototype = {
 
     setHighlight: function(highlight) {
         this.highlight = highlight;
-        this.uiHighlight.visible = highlight;
+        if (highlight) {
+            this.uiHighlight.visible = true;
+            this.uiHighlight.material.color = highlight;
+        } else {
+            this.uiHighlight.visible = false;
+        }
     },
 
     getHighlight: function() {
