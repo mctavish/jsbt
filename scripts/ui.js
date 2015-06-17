@@ -1,100 +1,110 @@
-/* Nasty global namespace stuff */
-
 // TODO: There's an issue with paths wrt texture images.
 
-var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+var BT = BT || {};
 
-var renderer = new THREE.WebGLRenderer();
-renderer.setSize( window.innerWidth, window.innerHeight );
-renderer.setClearColor( 0x6688ff, 1);
-document.getElementById('board').appendChild( renderer.domElement );
+BT.UIStates = Object.freeze({
+    PENDING_SELECTION: 0,
+    PENDING_MOVEMENT: 1,
+});
 
-var holder = new THREE.Group();
-scene.add(holder);
+// TODO: Take a dom element as an input parameter and put the renderer in it.
+BT.UI = function() {
+    this.scene = new THREE.Scene();
+    this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    this.renderer = new THREE.WebGLRenderer();
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setClearColor(0x6688ff, 1);
+    document.getElementById('board').appendChild(this.renderer.domElement);
 
-var light = new THREE.DirectionalLight(0xffffff, 0.8);
-light.position.set(3, -1, 2);
-scene.add(light);
+    this.holder = new THREE.Group();
+    this.scene.add(this.holder);
 
-// instantiate a loader
-var loader = new THREE.ObjectLoader();
+    this.light = new THREE.DirectionalLight(0xffffff, 0.8);
+    this.light.position.set(3, -1, 2);
+    this.scene.add(this.light);
 
-function clickHandler(e) {
-    // Assumption:  Board has been loaded.
-    e = e || window.event;
+    this.loader = new THREE.ObjectLoader();
+    this.assets = {};
+    var assetList = {
+        'clear': 'models/terrain/clear.js',
+        'lightforest': 'models/terrain/lightforest.js',
+        'heavyforest': 'models/terrain/heavyforest.js',
+        'highlight': 'models/highlight.js',
+        'border': 'models/border.js',
+        'enf-4r': 'models/units/enf-4r.js'  // Horrible but gets the point across.
+    };
+    // TODO: Find a way to bundle this into the loader.
+    this.assetsToLoad = 0;
+    var self = this;
 
-    var target = e.target || e.srcElement,
-        rect = target.getBoundingClientRect(),
-        mouse = new THREE.Vector2((e.clientX - rect.left) / rect.width * 2 - 1,
-                                  -((e.clientY - rect.top) / rect.height * 2 - 1));
-
-    // FIXME: It appears that rotations don't work right at all.
-    var raycaster = new THREE.Raycaster();
-    raycaster.setFromCamera(mouse, camera);
-    var intersects = raycaster.intersectObjects(board.getClickables());
-    if (intersects[0]) {
-        if (intersects[0].object && intersects[0].object.uuid) {
-            var hex = board.findHexByUuid(intersects[0].object.uuid);
-            hex.setHighlight(!hex.getHighlight());
+    for (var assetId in assetList) {
+        this.assetsToLoad++;
+        if (assetList.hasOwnProperty(assetId)) {
+            (function(assetId) {
+                self.loader.load(
+                    assetList[assetId],
+                    function(object) {
+                        self.assets[assetId] = object;
+                        self.assetsToLoad--;
+                        if (self.assetsToLoad === 0) {
+                            self.buildBoard();
+                        }
+                    }
+                );
+            })(assetId);
+        } else {
+            console.log("Doesn't have own property", assetId);
         }
     }
-}
 
-var assets = {};
-var assetList = {
-    'clear': 'models/terrain/clear.js',
-    'lightforest': 'models/terrain/lightforest.js',
-    'heavyforest': 'models/terrain/heavyforest.js',
-    'highlight': 'models/highlight.js',
-    'border': 'models/border.js',
-    'enf-4r': 'models/units/enf-4r.js'  // Horrible but gets the point across.
+    this.board = null;
+
+    this.camera.position.z = 220;
+    this.camera.position.y = -40;
+    this.camera.lookAt(new THREE.Vector3(0, 0, 0));
+
+    this.windowResize = new THREEx.WindowResize(this.renderer, this.camera);
+
+    this.state = BT.UIStates.PENDING_SELECTION;
+    this.selectedUnit = null;
 };
-var assetsToLoad = 0;
 
-for (var assetId in assetList) {
-    assetsToLoad++;
-    if (assetList.hasOwnProperty(assetId)) {
-        (function(assetId) {
-            loader.load(
-                assetList[assetId],
-                function(object) {
-                    assets[assetId] = object;
-                    assetsToLoad--;
-                    if (assetsToLoad === 0) {
-                        buildBoard();
-                    }
-                }
-            );
-        })(assetId);
-    } else {
-        console.log("Doesn't have own property", assetId);
+BT.UI.prototype = {
+    constructor: BT.UI,
+
+    clickHandler: function(e) {
+        // Assumption:  Board has been loaded.
+        e = e || window.event;
+    
+        var target = e.target || e.srcElement,
+            rect = target.getBoundingClientRect(),
+            mouse = new THREE.Vector2((e.clientX - rect.left) / rect.width * 2 - 1,
+                                      -((e.clientY - rect.top) / rect.height * 2 - 1));
+    
+        // FIXME: It appears that rotations don't work right at all.
+        var raycaster = new THREE.Raycaster();
+        raycaster.setFromCamera(mouse, this.camera);
+        var intersects = raycaster.intersectObjects(this.board.getClickables());
+        if (intersects[0]) {
+            if (intersects[0].object && intersects[0].object.uuid) {
+                var hex = this.board.findHexByUuid(intersects[0].object.uuid);
+                hex.setHighlight(!hex.getHighlight());
+            }
+        }
+    },
+    
+    buildBoard: function() {
+        this.board = new BT.Board(BT.boardData.width, BT.boardData.height, BT.boardData.data, this.assets, this.holder);
+        this.holder.translateX(-this.board.worldWidth / 2);
+        this.holder.translateY(-this.board.worldHeight / 2);
+        document.getElementById('board').addEventListener("click", this.clickHandler, false);
+        this.mech = new BT.Unit(this.assets['enf-4r'].clone(), new BT.UnitSheet(), this.board.getHex(5, 5), this.holder);
+        this.mech.setFacing(3);
+        this.mech.setFacing(1);
+    },
+
+    updateUI: function() {
+        //this.holder.rotation.z += 0.01;
+        this.renderer.render(this.scene, this.camera);
     }
-}
-
-var board;
-var buildBoard = function () {
-    board = new BT.Board(BT.boardData.width, BT.boardData.height, BT.boardData.data, assets, holder);
-    holder.translateX(-board.worldWidth / 2);
-    holder.translateY(-board.worldHeight / 2);
-    document.getElementById('board').addEventListener("click", clickHandler, false);
-    var mech = new BT.Unit(assets['enf-4r'].clone(), new BT.UnitSheet(), board.getHex(5, 5), holder);
-    mech.setFacing(3);
-    mech.setFacing(1);
 };
-
-camera.position.z = 220;
-camera.position.y = -40;
-camera.lookAt(new THREE.Vector3(0, 0, 0));
-
-var windowResize = new THREEx.WindowResize(renderer, camera);
-
-var render = function () {
-	requestAnimationFrame( render );
-
-	//holder.rotation.z += 0.01;
-
-	renderer.render(scene, camera);
-};
-
-render();

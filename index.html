@@ -28,5 +28,13 @@
         <div id='board'></div>
 
         <script src="scripts/ui.js"></script>
+        <script>
+            BT.ui = new BT.UI();
+            function animate() {
+                window.requestAnimationFrame(animate);
+                BT.ui.updateUI();
+            }
+            animate();
+        </script>
     </body>
 </html>
