@@ -100,14 +100,21 @@ BT.UI.prototype = {
                 var unit = null;
                 unit = this.board.getUnitAt(hex);
                 if (unit) {
+                    console.log(unit);
                     this.state = BT.UIStates.PENDING_MOVEMENT;
                     this.selectedUnit = unit;
                     hex.setHighlight(BT.Pallet.blue);
                 }
             } else if (this.state == BT.UIStates.PENDING_MOVEMENT) {
-                this.selectedUnit.getHex().setHighlight(null);
-                hex.setHighlight(BT.Pallet.blue);
-                this.board.moveUnit(this.selectedUnit, hex);
+                if (e.shiftKey) {
+                    // Rotation
+                    this.selectedUnit.setFacing(this.selectedUnit.facing + 1);
+                } else {
+                    // Movement
+                    this.selectedUnit.getHex().setHighlight(null);
+                    hex.setHighlight(BT.Pallet.blue);
+                    this.board.moveUnit(this.selectedUnit, hex);
+                }
             }
         }
     },
