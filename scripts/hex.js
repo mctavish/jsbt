@@ -9,6 +9,8 @@ BT.Hex = function(uiObj, highlightObj) {
     this.uiObj.add(this.uiHighlight);
     this.uiHighlight.visible = false;
     this.highlight = false;
+    // TODO: Consider whether this is too risky.
+    this.uuid = this.uiObj.uuid;
 };
 
 BT.Hex.prototype = {
